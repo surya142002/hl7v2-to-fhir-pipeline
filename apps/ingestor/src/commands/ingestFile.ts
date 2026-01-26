@@ -1,6 +1,9 @@
+import { readHl7File } from "../hl7/readFile";
+
 export async function ingestFile(filePath: string): Promise<void> {
-    // Stage 1 placeholder: prove CLI plumbing works.
-    console.log("OK");
-    console.log(`ingest invoked with file: ${filePath}`);
-  }
-  
+  const raw = await readHl7File(filePath);
+
+  console.log("OK");
+  console.log(`read file: ${filePath}`);
+  console.log(`chars: ${raw.length}`);
+}

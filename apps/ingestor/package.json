@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "ping-fhir": "ts-node src/cli.ts ping-fhir"
+    "ping-fhir": "ts-node src/cli.ts ping-fhir",
+    "ingest": "ts-node src/cli.ts ingest"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,67 @@
+{
+  "resourceType": "Bundle",
+  "id": "04f8475c-d101-484b-902f-3ec1f66db448",
+  "type": "transaction-response",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8080/fhir"
+    }
+  ],
+  "entry": [
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Patient/1000/_history/1",
+        "etag": "1",
+        "lastModified": "2026-01-26T19:05:17.957+00:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/1\". Created resource because no existing resource matched URL \"{1}\". Took 41ms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Encounter/1001/_history/1",
+        "etag": "1",
+        "lastModified": "2026-01-26T19:05:17.957+00:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Encounter/1001/_history/1\". Created resource because no existing resource matched URL \"{1}\". Took 6ms."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

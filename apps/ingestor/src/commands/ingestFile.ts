@@ -9,6 +9,7 @@ import { ValidationException } from "../validate/errors";
 import { mapToEncounter, mapToPatient } from "../fhir/mapAdtA01";
 import { buildAdtTransactionBundle } from "../fhir/bundle";
 import { writeJson } from "../out/writeArtifacts";
+import { postTransactionBundle } from "../fhir/postBundle";
 
 export async function ingestFile(filePath: string): Promise<void> {
   const raw = await readHl7File(filePath);
@@ -17,10 +18,12 @@ export async function ingestFile(filePath: string): Promise<void> {
   try {
     const x = validateAndExtractAdtA01(msg);
 
+    // Build FHIR resources
     const patientFullUrl = `urn:uuid:patient-${x.controlId}`;
-    const patient = mapToPatient(x as any); // birthDate/sex are optional in mapper; safe for now
+    const patient = mapToPatient(x as any); // birthDate/sex optional for now
     const encounter = mapToEncounter(x, patientFullUrl);
 
+    // Build transaction bundle
     const bundle = buildAdtTransactionBundle({
       controlId: x.controlId,
       mrn: x.mrn,
@@ -29,11 +32,20 @@ export async function ingestFile(filePath: string): Promise<void> {
       encounter
     });
 
-    const outPath = join(process.cwd(), "out", "fhir", `${x.controlId}.bundle.json`);
-    await writeJson(outPath, bundle);
+    // Write bundle artifact
+    const outBundlePath = join(process.cwd(), "out", "fhir", `${x.controlId}.bundle.json`);
+    await writeJson(outBundlePath, bundle);
+
+    // POST bundle to FHIR server
+    const resp = await postTransactionBundle(bundle);
+
+    // Write response artifact
+    const outRespPath = join(process.cwd(), "out", "fhir", `${x.controlId}.response.json`);
+    await writeJson(outRespPath, resp);
 
     console.log("OK");
-    console.log(`wrote bundle: ${outPath}`);
+    console.log(`wrote bundle: ${outBundlePath}`);
+    console.log(`wrote response: ${outRespPath}`);
     console.log(`controlId: ${x.controlId}`);
     console.log(`mrn: ${x.mrn}`);
     console.log(`visitNumber: ${x.visitNumber}`);

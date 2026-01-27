@@ -31,6 +31,10 @@ export type ParsedAdtA01 = {
   familyName: string;    // PID-5.1
   givenName: string;     // PID-5.2
   visitNumber: string;   // PV1-19 (CX.1)
+
+  // NEW (optional but validated if present)
+  birthDate?: string;    // PID-7 raw (expected YYYYMMDD)
+  sex?: string;          // PID-8 raw
 };
 
 export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
@@ -74,6 +78,19 @@ export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
     errors.push({ code: "HL7_PID_5_REQUIRED", message: "Missing patient name in PID-5", segment: "PID", field: "5" });
   }
 
+  // NEW: optional PID-7 / PID-8 (validate format if present)
+  const birthDate = getField(pid, 7) || undefined;
+  if (birthDate && !/^\d{8}$/.test(birthDate)) {
+    errors.push({
+      code: "HL7_PID_7_INVALID",
+      message: "PID-7 must be YYYYMMDD if present",
+      segment: "PID",
+      field: "7"
+    });
+  }
+
+  const sex = getField(pid, 8) || undefined;
+
   const pv1_19 = getField(pv1, 19);
   const visitNumber = component(firstRepetition(pv1_19), 1);
   if (!visitNumber) {
@@ -93,6 +110,8 @@ export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
     mrn,
     familyName,
     givenName,
-    visitNumber
+    visitNumber,
+    birthDate,
+    sex
   };
 }

@@ -42,7 +42,7 @@ export async function ingestFile(filePath: string): Promise<void> {
       const x = validateAndExtractAdtA01(msg);
 
       const patientFullUrl = `urn:uuid:patient-${x.controlId}`;
-      const patient = mapToPatient(x as any); // birthDate/sex optional for now
+      const patient = mapToPatient(x);
       const encounter = mapToEncounter(x, patientFullUrl);
 
       const bundle = buildAdtTransactionBundle({

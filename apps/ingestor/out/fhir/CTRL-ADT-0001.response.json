@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "60ba7267-628c-4679-a483-593eab290efb",
+  "id": "0b1881bd-40d0-4ea0-a40f-d923031e8689",
   "type": "transaction-response",
   "link": [
     {
@@ -12,8 +12,8 @@
     {
       "response": {
         "status": "200 OK",
-        "location": "Patient/1000/_history/1",
-        "etag": "1",
+        "location": "Patient/1000/_history/2",
+        "etag": "2",
         "outcome": {
           "resourceType": "OperationOutcome",
           "issue": [
@@ -24,12 +24,12 @@
                 "coding": [
                   {
                     "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
-                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
-                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated."
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/1\" with no changes detected. Existing resource matched URL \"Patient?identifier=urn%3Aid%3Amrn|MRN12345\"."
+              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/2\". Existing resource matched URL \"Patient?identifier=urn%3Aid%3Amrn|MRN12345\"."
             }
           ]
         }

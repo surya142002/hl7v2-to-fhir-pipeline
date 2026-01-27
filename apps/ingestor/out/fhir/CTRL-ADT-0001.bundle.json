@@ -20,7 +20,8 @@
             ]
           }
         ],
-        "gender": "unknown"
+        "gender": "male",
+        "birthDate": "1990-01-15"
       },
       "request": {
         "method": "PUT",

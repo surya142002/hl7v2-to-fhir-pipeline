@@ -30,6 +30,7 @@ export async function inspectFile(filePath: string): Promise<void> {
     console.log(`timestamp: ${timestamp}`);
     console.log(`mrn: ${mrn}`);
     console.log(`visitNumber: ${visitNumber}`);
+    console.log(`pv1-44 admitDateTimeRaw: ${x.pv1?.admitDateTimeRaw ?? "MISSING"}`);
     console.log(`OBR count: ${x.obrs.length}`);
     console.log(`OBX count: ${x.obxs.length}`);
     console.log(`segments: ${x.segmentNames.join(", ")}`);

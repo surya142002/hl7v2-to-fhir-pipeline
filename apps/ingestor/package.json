@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsc",
     "ping-fhir": "ts-node src/cli.ts ping-fhir",
-    "ingest": "ts-node src/cli.ts ingest"
+    "ingest": "ts-node src/cli.ts ingest",
+    "inspect": "ts-node src/cli.ts inspect"
   },
   "keywords": [],
   "author": "",

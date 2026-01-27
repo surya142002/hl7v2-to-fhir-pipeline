@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "04f8475c-d101-484b-902f-3ec1f66db448",
+  "id": "f64433bf-779a-4977-aec5-ae7eca08d770",
   "type": "transaction-response",
   "link": [
     {
@@ -11,10 +11,9 @@
   "entry": [
     {
       "response": {
-        "status": "201 Created",
+        "status": "200 OK",
         "location": "Patient/1000/_history/1",
         "etag": "1",
-        "lastModified": "2026-01-26T19:05:17.957+00:00",
         "outcome": {
           "resourceType": "OperationOutcome",
           "issue": [
@@ -25,12 +24,12 @@
                 "coding": [
                   {
                     "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
-                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
-                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/1\". Created resource because no existing resource matched URL \"{1}\". Took 41ms."
+              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/1\" with no changes detected. Existing resource matched URL \"Patient?identifier=urn%3Aid%3Amrn|MRN12345\"."
             }
           ]
         }
@@ -38,10 +37,9 @@
     },
     {
       "response": {
-        "status": "201 Created",
+        "status": "200 OK",
         "location": "Encounter/1001/_history/1",
         "etag": "1",
-        "lastModified": "2026-01-26T19:05:17.957+00:00",
         "outcome": {
           "resourceType": "OperationOutcome",
           "issue": [
@@ -52,12 +50,12 @@
                 "coding": [
                   {
                     "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
-                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
-                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Encounter/1001/_history/1\". Created resource because no existing resource matched URL \"{1}\". Took 6ms."
+              "diagnostics": "Successfully conditionally updated resource \"Encounter/1001/_history/1\" with no changes detected. Existing resource matched URL \"Encounter?identifier=urn%3Aid%3Aencounter|VISIT98765\"."
             }
           ]
         }

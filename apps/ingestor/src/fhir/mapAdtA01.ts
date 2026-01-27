@@ -9,6 +9,13 @@ function hl7DobToFhirDate(yyyymmdd?: string): string | undefined {
   return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
 }
 
+function hl7TsToFhirDateTime(ts?: string): string | undefined {
+  if (!ts) return undefined;
+  const s = ts.trim();
+  if (!/^\d{14}$/.test(s)) return undefined;
+  return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}T${s.slice(8, 10)}:${s.slice(10, 12)}:${s.slice(12, 14)}`;
+}
+
 function mapSex(sex?: string): FhirPatient["gender"] {
   const v = (sex ?? "").trim().toUpperCase();
   if (v === "M") return "male";
@@ -17,7 +24,7 @@ function mapSex(sex?: string): FhirPatient["gender"] {
   return "unknown";
 }
 
-export function mapToPatient(x: ParsedAdtA01 & { birthDate?: string; sex?: string }): FhirPatient {
+export function mapToPatient(x: ParsedAdtA01): FhirPatient {
   return {
     resourceType: "Patient",
     identifier: [{ system: MRN_SYSTEM, value: x.mrn }],
@@ -28,10 +35,13 @@ export function mapToPatient(x: ParsedAdtA01 & { birthDate?: string; sex?: strin
 }
 
 export function mapToEncounter(x: ParsedAdtA01, patientFullUrl: string): FhirEncounter {
+  const start = hl7TsToFhirDateTime(x.admitDateTime);
+
   return {
     resourceType: "Encounter",
     status: "in-progress",
     identifier: [{ system: ENCOUNTER_SYSTEM, value: x.visitNumber }],
-    subject: { reference: patientFullUrl }
+    subject: { reference: patientFullUrl },
+    period: start ? { start } : undefined
   };
 }

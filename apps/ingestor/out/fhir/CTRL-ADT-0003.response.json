@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "a4feafff-8138-4fa4-b28c-4bf31f812940",
+  "id": "11ac6b28-a44a-4a07-a2f9-3a84828c747d",
   "type": "transaction-response",
   "link": [
     {
@@ -38,8 +38,8 @@
     {
       "response": {
         "status": "200 OK",
-        "location": "Encounter/1001/_history/1",
-        "etag": "1",
+        "location": "Encounter/1001/_history/2",
+        "etag": "2",
         "outcome": {
           "resourceType": "OperationOutcome",
           "issue": [
@@ -50,12 +50,12 @@
                 "coding": [
                   {
                     "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
-                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
-                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated."
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Encounter/1001/_history/1\" with no changes detected. Existing resource matched URL \"Encounter?identifier=urn%3Aid%3Aencounter|VISIT98765\"."
+              "diagnostics": "Successfully conditionally updated resource \"Encounter/1001/_history/2\". Existing resource matched URL \"Encounter?identifier=urn%3Aid%3Aencounter|VISIT98765\"."
             }
           ]
         }

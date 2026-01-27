@@ -1,0 +1,55 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-CTRL-ADT-0003",
+      "resource": {
+        "resourceType": "Patient",
+        "identifier": [
+          {
+            "system": "urn:id:mrn",
+            "value": "MRN12345"
+          }
+        ],
+        "name": [
+          {
+            "family": "Doe",
+            "given": [
+              "John"
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1990-01-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient?identifier=urn%3Aid%3Amrn|MRN12345"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:encounter-CTRL-ADT-0003",
+      "resource": {
+        "resourceType": "Encounter",
+        "status": "in-progress",
+        "identifier": [
+          {
+            "system": "urn:id:encounter",
+            "value": "VISIT98765"
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:patient-CTRL-ADT-0003"
+        },
+        "period": {
+          "start": "2026-01-26T11:30:00"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter?identifier=urn%3Aid%3Aencounter|VISIT98765"
+      }
+    }
+  ]
+}

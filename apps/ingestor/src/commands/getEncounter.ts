@@ -14,4 +14,5 @@ export async function getEncounter(visit: string): Promise<void> {
   console.log(`Encounter/${enc.id}`);
   console.log(`status: ${enc.status ?? "(missing)"}`);
   console.log(`subject: ${enc.subject?.reference ?? "(missing)"}`);
+  console.log(`period.start: ${enc.period?.start ?? "(missing)"}`);
 }

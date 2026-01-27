@@ -32,9 +32,9 @@ export type ParsedAdtA01 = {
   givenName: string;     // PID-5.2
   visitNumber: string;   // PV1-19 (CX.1)
 
-  // NEW (optional but validated if present)
-  birthDate?: string;    // PID-7 raw (expected YYYYMMDD)
+  birthDate?: string;    // PID-7 raw (YYYYMMDD)
   sex?: string;          // PID-8 raw
+  admitDateTime?: string; // PV1-44 raw (YYYYMMDDHHMMSS)
 };
 
 export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
@@ -78,7 +78,6 @@ export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
     errors.push({ code: "HL7_PID_5_REQUIRED", message: "Missing patient name in PID-5", segment: "PID", field: "5" });
   }
 
-  // NEW: optional PID-7 / PID-8 (validate format if present)
   const birthDate = getField(pid, 7) || undefined;
   if (birthDate && !/^\d{8}$/.test(birthDate)) {
     errors.push({
@@ -102,6 +101,17 @@ export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
     });
   }
 
+  // NEW: PV1-44 (admit datetime) optional but strict if present
+  const admitDateTime = getField(pv1, 44) || undefined;
+  if (admitDateTime && !/^\d{14}$/.test(admitDateTime)) {
+    errors.push({
+      code: "HL7_PV1_44_INVALID",
+      message: "PV1-44 must be YYYYMMDDHHMMSS if present",
+      segment: "PV1",
+      field: "44"
+    });
+  }
+
   if (errors.length) throw new ValidationException(errors);
 
   return {
@@ -112,6 +122,7 @@ export function validateAndExtractAdtA01(msg: HL7Message): ParsedAdtA01 {
     givenName,
     visitNumber,
     birthDate,
-    sex
+    sex,
+    admitDateTime
   };
 }

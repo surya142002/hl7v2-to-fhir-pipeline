@@ -6,7 +6,9 @@
     "build": "tsc",
     "ping-fhir": "ts-node src/cli.ts ping-fhir",
     "ingest": "ts-node src/cli.ts ingest",
-    "inspect": "ts-node src/cli.ts inspect"
+    "inspect": "ts-node src/cli.ts inspect",
+    "get-patient": "ts-node src/cli.ts get-patient",
+    "get-encounter": "ts-node src/cli.ts get-encounter"
   },
   "keywords": [],
   "author": "",

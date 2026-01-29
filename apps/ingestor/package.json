@@ -8,7 +8,8 @@
     "ingest": "ts-node src/cli.ts ingest",
     "inspect": "ts-node src/cli.ts inspect",
     "get-patient": "ts-node src/cli.ts get-patient",
-    "get-encounter": "ts-node src/cli.ts get-encounter"
+    "get-encounter": "ts-node src/cli.ts get-encounter",
+    "validate-oru": "ts-node src/cli.ts validate-oru"
   },
   "keywords": [],
   "author": "",

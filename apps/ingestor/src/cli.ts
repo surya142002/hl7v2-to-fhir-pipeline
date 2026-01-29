@@ -3,6 +3,7 @@ import { ingestFile } from "./commands/ingestFile";
 import { inspectFile } from "./commands/inspectFile";
 import { getPatient } from "./commands/getPatient";
 import { getEncounter } from "./commands/getEncounter";
+import { validateOru } from "./commands/validateOru";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -13,6 +14,7 @@ async function main(): Promise<void> {
     "  npm run ping-fhir\n" +
     "  npm run ingest -- <path>\n" +
     "  npm run inspect -- <path>\n" +
+    "  npm run validate-oru -- <path>\n" +
     "  npm run get-patient -- --mrn <MRN>\n" +
     "  npm run get-encounter -- --visit <VISIT>";
 
@@ -43,6 +45,16 @@ async function main(): Promise<void> {
         process.exit(2);
       }
       await inspectFile(filePath);
+      return;
+    }
+
+    case "validate-oru": {
+      const filePath = args[1];
+      if (!filePath) {
+        console.error(`ERROR: Missing file path.\nUsage: npm run validate-oru -- <path>`);
+        process.exit(2);
+      }
+      await validateOru(filePath);
       return;
     }
 

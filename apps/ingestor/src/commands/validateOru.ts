@@ -17,7 +17,15 @@ export async function validateOru(filePath: string): Promise<void> {
     console.log(`mrn: ${x.mrn}`);
     console.log(`visitNumber: ${x.visitNumber}`);
     console.log(`OBR count: ${x.obrCount}`);
-    console.log(`OBX count: ${x.obxCount}`);
+    console.log(`OBX parsed: ${x.obxs.length}`);
+
+    for (const o of x.obxs) {
+      const disp = o.display ? ` "${o.display}"` : "";
+      const sys = o.systemRaw ? ` [${o.systemRaw}]` : "";
+      const units = o.units ? ` ${o.units}` : "";
+      const ts = o.obsTs ? ` ts=${o.obsTs}` : "";
+      console.log(`- ${o.valueType} ${o.code}${disp}${sys} = ${o.valueRaw}${units}${ts}`);
+    }
   } catch (err) {
     if (err instanceof ValidationException) {
       console.error("ERROR: Validation failed");

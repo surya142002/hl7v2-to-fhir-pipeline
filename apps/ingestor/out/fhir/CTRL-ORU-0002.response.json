@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "c3227e74-f9d4-4782-acf9-5a52c8b2df3d",
+  "id": "7564c46e-5630-400d-916d-7a8f9716f330",
   "type": "transaction-response",
   "link": [
     {
@@ -64,8 +64,8 @@
     {
       "response": {
         "status": "200 OK",
-        "location": "Observation/1051/_history/3",
-        "etag": "3",
+        "location": "Observation/1051/_history/4",
+        "etag": "4",
         "outcome": {
           "resourceType": "OperationOutcome",
           "issue": [
@@ -81,7 +81,7 @@
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Observation/1051/_history/3\" with no changes detected. Existing resource matched URL \"Observation?identifier=urn%3Aid%3Aobservation|VISIT98765%7C1%7C2345-7\"."
+              "diagnostics": "Successfully conditionally updated resource \"Observation/1051/_history/4\" with no changes detected. Existing resource matched URL \"Observation?identifier=urn%3Aid%3Aobservation|VISIT98765%7C1%7C2345-7\"."
             }
           ]
         }

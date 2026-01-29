@@ -18,6 +18,9 @@ import { normalizeMessage } from "../model/normalize";
 import { requireSupportedMessageType } from "../validate/messageType";
 import { getNormalizedMessageType } from "../hl7/getMessageType";
 
+import { getObservationByIdentifier } from "../fhir/getObservationByIdentifier";
+import { OBSERVATION_SYSTEM } from "../fhir/identity";
+
 export async function ingestFile(filePath: string): Promise<void> {
   const raw = await readHl7File(filePath);
   const msg = parseHl7(raw);
@@ -74,7 +77,7 @@ export async function ingestFile(filePath: string): Promise<void> {
     }
 
     if (mt.code === "ORU" && mt.trigger === "R01") {
-      // NEW: ORU^R01 ingestion
+      // ORU^R01 ingestion
       const x = validateAndExtractOruR01(msg);
 
       const patientFullUrl = `urn:uuid:patient-${x.controlId}`;
@@ -83,6 +86,22 @@ export async function ingestFile(filePath: string): Promise<void> {
       const patient = mapOruToPatient(x);
       const encounter = mapOruToEncounter(x, patientFullUrl);
       const observations = mapOruToObservations({ x, patientFullUrl, encounterFullUrl });
+
+      for (const o of observations) {
+        const id0 = o.identifier && o.identifier[0] ? o.identifier[0] : undefined;
+        const sys = id0?.system ?? OBSERVATION_SYSTEM;
+        const val = id0?.value;
+
+        if (!val) continue;
+
+        if (!o.effectiveDateTime) {
+          const existing = await getObservationByIdentifier(sys, val);
+          const existingEff = existing?.effectiveDateTime;
+          if (existingEff) {
+            o.effectiveDateTime = existingEff;
+          }
+        }
+      }
 
       const bundle = buildOruTransactionBundle({
         controlId: x.controlId,

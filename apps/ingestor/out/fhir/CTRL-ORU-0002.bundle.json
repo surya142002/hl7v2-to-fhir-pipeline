@@ -75,6 +75,7 @@
         "encounter": {
           "reference": "urn:uuid:encounter-CTRL-ORU-0002"
         },
+        "effectiveDateTime": "2026-01-26T12:05:00",
         "valueQuantity": {
           "value": 92,
           "unit": "mg/dL"

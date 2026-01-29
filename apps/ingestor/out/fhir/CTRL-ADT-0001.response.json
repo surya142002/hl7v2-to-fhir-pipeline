@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "63f23d43-75ef-4e47-a9de-4f3214ef0ad9",
+  "id": "1456deb4-4a9d-431e-aa4b-1fe46724f826",
   "type": "transaction-response",
   "link": [
     {
@@ -24,12 +24,12 @@
                 "coding": [
                   {
                     "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
-                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH",
-                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated."
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
                   }
                 ]
               },
-              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/4\". Existing resource matched URL \"Patient?identifier=urn%3Aid%3Amrn|MRN12345\"."
+              "diagnostics": "Successfully conditionally updated resource \"Patient/1000/_history/4\" with no changes detected. Existing resource matched URL \"Patient?identifier=urn%3Aid%3Amrn|MRN12345\"."
             }
           ]
         }

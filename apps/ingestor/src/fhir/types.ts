@@ -44,3 +44,18 @@ export type FhirBundle = {
   type: "transaction";
   entry: FhirBundleEntry[];
 };
+
+export type FhirObservation = {
+  resourceType: "Observation";
+  status: "final" | "registered" | "preliminary" | "amended" | "cancelled" | "entered-in-error" | "unknown";
+  identifier?: FhirIdentifier[];
+  code: {
+    coding?: Array<{ system?: string; code?: string; display?: string }>;
+    text?: string;
+  };
+  subject: FhirReference;
+  encounter?: FhirReference;
+  effectiveDateTime?: string;
+  valueQuantity?: { value?: number; unit?: string };
+  valueString?: string;
+};

@@ -4,6 +4,7 @@ import { inspectFile } from "./commands/inspectFile";
 import { getPatient } from "./commands/getPatient";
 import { getEncounter } from "./commands/getEncounter";
 import { validateOru } from "./commands/validateOru";
+import { mapOru } from "./commands/mapOru";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -16,7 +17,8 @@ async function main(): Promise<void> {
     "  npm run inspect -- <path>\n" +
     "  npm run validate-oru -- <path>\n" +
     "  npm run get-patient -- --mrn <MRN>\n" +
-    "  npm run get-encounter -- --visit <VISIT>";
+    "  npm run get-encounter -- --visit <VISIT>\n" +
+    "  npm run map-oru -- <path>";
 
   if (!command) {
     console.error(`ERROR: Missing command.\n${usage}`);
@@ -79,6 +81,16 @@ async function main(): Promise<void> {
       await getEncounter(visit);
       return;
     }
+
+    case "map-oru": {
+      const filePath = args[1];
+      if (!filePath) {
+        console.error(`ERROR: Missing file path.\nUsage: npm run map-oru -- <path>`);
+        process.exit(2);
+      }
+      await mapOru(filePath);
+      return;
+    }    
 
     default:
       console.error(`ERROR: Unknown command: ${command}\n${usage}`);

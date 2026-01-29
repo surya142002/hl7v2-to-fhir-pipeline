@@ -10,7 +10,8 @@
     "get-patient": "ts-node src/cli.ts get-patient",
     "get-encounter": "ts-node src/cli.ts get-encounter",
     "validate-oru": "ts-node src/cli.ts validate-oru",
-    "map-oru": "ts-node src/cli.ts map-oru"
+    "map-oru": "ts-node src/cli.ts map-oru",
+    "get-observations": "ts-node src/cli.ts get-observations"
   },
   "keywords": [],
   "author": "",

@@ -5,6 +5,7 @@ import { getPatient } from "./commands/getPatient";
 import { getEncounter } from "./commands/getEncounter";
 import { validateOru } from "./commands/validateOru";
 import { mapOru } from "./commands/mapOru";
+import { getObservations } from "./commands/getObservations";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -18,6 +19,7 @@ async function main(): Promise<void> {
     "  npm run validate-oru -- <path>\n" +
     "  npm run get-patient -- --mrn <MRN>\n" +
     "  npm run get-encounter -- --visit <VISIT>\n" +
+    "  npm run get-observations -- --mrn <MRN>\n" +
     "  npm run map-oru -- <path>";
 
   if (!command) {
@@ -89,6 +91,17 @@ async function main(): Promise<void> {
         process.exit(2);
       }
       await mapOru(filePath);
+      return;
+    }    
+
+    case "get-observations": {
+      const flag = args[1];
+      const mrn = args[2];
+      if (flag !== "--mrn" || !mrn) {
+        console.error(`ERROR: Invalid arguments.\nUsage: npm run get-observations -- --mrn <MRN>`);
+        process.exit(2);
+      }
+      await getObservations(mrn);
       return;
     }    
 

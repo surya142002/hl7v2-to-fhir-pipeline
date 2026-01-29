@@ -69,6 +69,11 @@ export type ParsedOruR01 = {
   mrn: string; // PID-3.1
   familyName: string; // PID-5.1
   givenName: string; // PID-5.2
+
+  // NEW: demographics (used to avoid wiping Patient on PUT)
+  birthDateRaw?: string; // PID-7 raw (YYYYMMDD)
+  sexRaw?: string; // PID-8 raw
+
   visitNumber: string; // PV1-19.1
   obrCount: number;
   obxs: ParsedObx[];
@@ -134,6 +139,19 @@ export function validateAndExtractOruR01(msg: HL7Message): ParsedOruR01 {
       field: "5",
     });
   }
+
+  // NEW: PID-7 + PID-8 (optional but strict if present)
+  const birthDateRaw = getField(pid, 7) || undefined;
+  if (birthDateRaw && !/^\d{8}$/.test(birthDateRaw.trim())) {
+    errors.push({
+      code: "HL7_PID_7_INVALID",
+      message: "PID-7 must be YYYYMMDD if present",
+      segment: "PID",
+      field: "7",
+    });
+  }
+
+  const sexRaw = getField(pid, 8) || undefined;
 
   const pv1_19 = getField(pv1, 19);
   const visitNumber = component(firstRepetition(pv1_19), 1);
@@ -221,7 +239,6 @@ export function validateAndExtractOruR01(msg: HL7Message): ParsedOruR01 {
       }
     }
 
-    // Only push if we at least have placeholders; final throw happens below if errors exist.
     obxs.push({
       setId,
       valueType: valueType ?? "",
@@ -242,6 +259,8 @@ export function validateAndExtractOruR01(msg: HL7Message): ParsedOruR01 {
     mrn,
     familyName,
     givenName,
+    birthDateRaw,
+    sexRaw,
     visitNumber,
     obrCount,
     obxs,

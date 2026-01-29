@@ -4,10 +4,13 @@ import { readHl7File } from "../hl7/readFile";
 import { parseHl7 } from "../hl7/parse";
 
 import { validateAndExtractAdtA01 } from "../validate/adtA01";
+import { validateAndExtractOruR01 } from "../validate/oruR01";
 import { ValidationException } from "../validate/errors";
 
 import { mapToEncounter, mapToPatient } from "../fhir/mapAdtA01";
-import { buildAdtTransactionBundle } from "../fhir/bundle";
+import { mapOruToEncounter, mapOruToObservations, mapOruToPatient } from "../fhir/mapOruR01";
+
+import { buildAdtTransactionBundle, buildOruTransactionBundle } from "../fhir/bundle";
 import { writeJson } from "../out/writeArtifacts";
 import { postTransactionBundle } from "../fhir/postBundle";
 
@@ -71,15 +74,41 @@ export async function ingestFile(filePath: string): Promise<void> {
     }
 
     if (mt.code === "ORU" && mt.trigger === "R01") {
-      // Explicitly unsupported for ingestion right now
-      throw new ValidationException([
-        {
-          code: "HL7_ORU_NOT_IMPLEMENTED",
-          message: "ORU^R01 is allowed by Phase 1 contract, but ingestion is not implemented yet.",
-          segment: "MSH",
-          field: "9",
-        },
-      ]);
+      // NEW: ORU^R01 ingestion
+      const x = validateAndExtractOruR01(msg);
+
+      const patientFullUrl = `urn:uuid:patient-${x.controlId}`;
+      const encounterFullUrl = `urn:uuid:encounter-${x.controlId}`;
+
+      const patient = mapOruToPatient(x);
+      const encounter = mapOruToEncounter(x, patientFullUrl);
+      const observations = mapOruToObservations({ x, patientFullUrl, encounterFullUrl });
+
+      const bundle = buildOruTransactionBundle({
+        controlId: x.controlId,
+        mrn: x.mrn,
+        visitNumber: x.visitNumber,
+        patient,
+        encounter,
+        observations,
+      });
+
+      const outBundlePath = join(process.cwd(), "out", "fhir", `${x.controlId}.bundle.json`);
+      await writeJson(outBundlePath, bundle);
+
+      const resp = await postTransactionBundle(bundle);
+
+      const outRespPath = join(process.cwd(), "out", "fhir", `${x.controlId}.response.json`);
+      await writeJson(outRespPath, resp);
+
+      console.log("OK");
+      console.log(`wrote bundle: ${outBundlePath}`);
+      console.log(`wrote response: ${outRespPath}`);
+      console.log(`controlId: ${x.controlId}`);
+      console.log(`mrn: ${x.mrn}`);
+      console.log(`visitNumber: ${x.visitNumber}`);
+      console.log(`observations: ${observations.length}`);
+      return;
     }
 
     // Shouldn't happen due to requireSupportedMessageType, but keep as a hard guard.

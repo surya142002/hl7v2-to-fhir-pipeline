@@ -11,12 +11,11 @@ export async function mapOru(filePath: string): Promise<void> {
   try {
     const x = validateAndExtractOruR01(msg);
 
-    // For this step, references are placeholders.
-    // Next step (bundling) will switch these to fullUrl references.
-    const patientRef = `Patient?identifier=urn:id:mrn|${x.mrn}`;
-    const encounterRef = `Encounter?identifier=urn:id:encounter|${x.visitNumber}`;
+    // For Step 4 compatibility: use bundle-style fullUrls (even though we're not bundling yet)
+    const patientFullUrl = `urn:uuid:patient-${x.controlId}`;
+    const encounterFullUrl = `urn:uuid:encounter-${x.controlId}`;
 
-    const observations = mapOruToObservations({ x, patientRef, encounterRef });
+    const observations = mapOruToObservations({ x, patientFullUrl, encounterFullUrl });
 
     console.log("OK");
     console.log(`file: ${filePath}`);

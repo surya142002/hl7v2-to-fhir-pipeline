@@ -1,0 +1,89 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-CTRL-ORU-0002",
+      "resource": {
+        "resourceType": "Patient",
+        "identifier": [
+          {
+            "system": "urn:id:mrn",
+            "value": "MRN12345"
+          }
+        ],
+        "name": [
+          {
+            "family": "Doe",
+            "given": [
+              "John"
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1990-01-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient?identifier=urn%3Aid%3Amrn|MRN12345"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:encounter-CTRL-ORU-0002",
+      "resource": {
+        "resourceType": "Encounter",
+        "status": "in-progress",
+        "identifier": [
+          {
+            "system": "urn:id:encounter",
+            "value": "VISIT98765"
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:patient-CTRL-ORU-0002"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter?identifier=urn%3Aid%3Aencounter|VISIT98765"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:observation-CTRL-ORU-0002-1",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "identifier": [
+          {
+            "system": "urn:id:observation",
+            "value": "VISIT98765|1|2345-7"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2345-7",
+              "display": "Glucose"
+            }
+          ],
+          "text": "Glucose"
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-CTRL-ORU-0002"
+        },
+        "encounter": {
+          "reference": "urn:uuid:encounter-CTRL-ORU-0002"
+        },
+        "valueQuantity": {
+          "value": 92,
+          "unit": "mg/dL"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation?identifier=urn%3Aid%3Aobservation|VISIT98765%7C1%7C2345-7"
+      }
+    }
+  ]
+}
